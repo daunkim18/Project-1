@@ -1,38 +1,39 @@
 package com.skillstorm.training.project;
 
 public class Scene {
-	private String description;
-	private String[] choices;
-	private int[] propertyRequirements;
-	private String[] outcomes;
-
-	public Scene(String description, String[] choices, int[] propertyRequirements, String[] outcomes) {
-		this.description = description;
-		this.choices = choices;
-		this.setPropertyRequirements(propertyRequirements);
-		this.setOutcomes(outcomes);
+	public static void printIntro() {
+		GameLogic.clearConsole();
+		GameLogic.printSeperator(30);
+		System.out.println("SCENE INTRODUCTION");
+		GameLogic.printSeperator(30);
+		System.out.println("The year is 1365, in the time of the Magnarian Eclipse.");
+		GameLogic.anythingToContinue();
 	}
-
-	public void play(Player player) {
-		System.out.println(description);
-		for (int i = 0; i < choices.length; i++) {
-			System.out.println((i + 1) + ". " + choices[i]);
-		}
+	public static void printFirst() {
+		GameLogic.clearConsole();
+		GameLogic.printSeperator(30);
+		System.out.println("ACT I");
+		GameLogic.printSeperator(30);
+		System.out.println("After a short while the company begins to stir ");
+		System.out.println("You see people walking quickly");
+		System.out.println("Packing gear, taking down tents and preparing to hit the road");
+		GameLogic.anythingToContinue();
 	}
-
-	public int[] getPropertyRequirements() {
-		return propertyRequirements;
+	public static void printSecond() {
+		GameLogic.clearConsole();
+		GameLogic.printSeperator(30);
+		System.out.println("ACT II");
+		GameLogic.printSeperator(30);
+		System.out.println("Narration: The year is 1365, in the time of the Magnarian Eclipse.");
+		GameLogic.anythingToContinue();
 	}
-
-	public void setPropertyRequirements(int[] propertyRequirements) {
-		this.propertyRequirements = propertyRequirements;
-	}
-
-	public String[] getOutcomes() {
-		return outcomes;
-	}
-
-	public void setOutcomes(String[] outcomes) {
-		this.outcomes = outcomes;
+	public static void printEnd(Player player) {
+		GameLogic.clearConsole();
+		GameLogic.printSeperator(30);
+		System.out.println("Congratulations, " + player.name + "! You defeated the enemy and saved the country!");
+		GameLogic.printSeperator(30);
+		System.out.println("The game was developed by Daun Kim for Project 1.");
+		System.out.println("Thank you for playing the game!");
+		GameLogic.anythingToContinue();
 	}
 }
