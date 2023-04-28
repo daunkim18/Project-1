@@ -14,6 +14,7 @@ public abstract class Character {
 
 	// method for every character
 	public abstract int attack();
+
 	public abstract int defend();
 
 }
