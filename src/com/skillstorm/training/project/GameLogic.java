@@ -7,8 +7,9 @@ public class GameLogic {
 	static Player player;
 	public static boolean isRunning;
 
-	public static String[] encounters = {"Battle", "Rest", "Shop" };
-	public static String[] enemies = { "Dritarian Warrior", "Dritarian Ranger", "Dritarian Sorceror", "Dritarian Berserker" };
+	public static String[] encounters = { "Battle", "Rest", "Shop" };
+	public static String[] enemies = { "Dritarian Warrior", "Dritarian Ranger", "Dritarian Sorceror",
+			"Dritarian Berserker" };
 
 	// scene elements
 	public static int place = 0, act = 1;
@@ -57,16 +58,13 @@ public class GameLogic {
 	public static void startGame() {
 		boolean nameSet = false;
 		String name;
+		place = 1;
 		// print title screen
 		clearConsole();
 		printSeperator(40);
 		printSeperator(30);
-		System.out.println("     THE CAMPAIGN"
-				+ "\n           /\\_/\\  \r\n"
-				+ "     ____/ o o \\\r\n"
-				+ "   /~____  =ø= / \r\n"
-				+ "(______)__m_m) \r\n"
-				+ "       \n    ADVENTURE ");
+		System.out.println("     THE CAMPAIGN" + "\n           /\\_/\\  \r\n" + "     ____/ o o \\\r\n"
+				+ "   /~____  =ø= / \r\n" + "(______)__m_m) \r\n" + "       \n    ADVENTURE ");
 		System.out.println("\nCreated by Daun Kim");
 		printSeperator(30);
 		printSeperator(40);
@@ -92,14 +90,13 @@ public class GameLogic {
 
 		// create new player object
 		player = new Player(name);
-		Scene.printFirst();
 
 		// game loop can continue
 		isRunning = true;
 
 		// Start main game loop
 		gameLoop();
-		
+
 		boolean playAgain = true;
 		while (playAgain) {
 			boolean nameSet1 = false;
@@ -112,46 +109,45 @@ public class GameLogic {
 			gameLoop();
 			// game has ended, ask user to play again
 			clearConsole();
-			printHeading("Congratulations! You have won the game!");
-			System.out.println("Do you want to play again?");
-			System.out.println("1. Yes");
-			System.out.println("2. No");
-			int input = readInt("-> ", 2);
-			if (input == 2) {
-				playAgain = false;
+			if (player.healthpt <= 0) {
+				printHeading("Congratulations! You have won the game!");
+			} else {
+				playerDied();
 				Scene.printEnd(player);
+				printSeperator(40);
+				System.out.println("Do you want to play again?");
+				System.out.println("1. Yes");
+				System.out.println("2. No");
+				int input = readInt("-> ", 2);
+				if (input == 1) {
+					playAgain = true;
+					startGame();
+				} else if (input == 2) {
+					playAgain = false;
+					Scene.printEnd(player);
+				}
 			}
 		}
 	}
 
 	// method changing values based on player experience points
 	public static void changeVal() {
-		if (player.experiencept >= 10 && act == 1) {
+		if (act == 1) {
 			act = 2;
 			place = 2;
 			Scene.printIntro();
 			player.chooseTrait();
 			Scene.printFirst();
-			// enemy values
-			enemies[0] = "Dritarian Warrior";
-			enemies[1] = "Dritarian Ranger";
-			enemies[2] = "Evil monster3";
-			enemies[3] = "Evil monster4";
-			enemies[4] = "Evil monster5";
-			encounters[0] = "Battle 1";
-			encounters[1] = "Battle 2";
-			encounters[2] = "Battle 3";
-			encounters[3] = "Battle 4";
-			encounters[4] = "Battle 5";
+
 			// fully recover player
 			player.healthpt = player.maxhealthpt;
-		} else if (player.experiencept >= 3 && act == 2) {
+		} else if (act == 2) {
 			act = 3;
 			place = 1;
 			Scene.printFirst();
 			player.chooseTrait();
 			Scene.printSecond();
-		} else if (player.experiencept >= 3 && act == 3) {
+		} else if (act == 3) {
 			act = 4;
 			place = 3;
 			Scene.printSecond();
@@ -159,9 +155,12 @@ public class GameLogic {
 			Scene.printThird();
 			// fully recover player
 			player.healthpt = player.maxhealthpt;
-			finalBattle();
-		} else if (player.experiencept >=3 && act == 4) {
-			Scene.printEnd(player);
+			//finalBattle();
+		} else if (act == 4) {
+			if (player.healthpt <= 0)
+				playerDied();
+			else if (player.healthpt <= 0)
+				Scene.printEnd(player);
 		}
 	}
 
@@ -174,7 +173,6 @@ public class GameLogic {
 			takeRest();
 		} else {
 			shop();
-			Scene.printEnd(player);
 		}
 	}
 
@@ -194,7 +192,7 @@ public class GameLogic {
 		printSeperator(20);
 
 		// experience point and item
-		System.out.println("Experience Point: " + player.experiencept + "\tGold: " + player.money);
+		System.out.println("Experience Point: " + player.experiencept + "\tMoney: " + player.money);
 		printSeperator(20);
 
 		// medicine
@@ -218,26 +216,10 @@ public class GameLogic {
 	// shop
 	public static void shop() {
 		clearConsole();
-		printHeading("\nAt the rendevous point, you find a crumbling watch tower, a lone Magnarian soldier beckons you in"
+		printHeading(
+				"\nAt the rendevous point, you find a crumbling watch tower, a lone Magnarian soldier beckons you in"
 						+ "\nI'm all that's left he says. If you need to resupply I have some goods. Take a look! ");
-//		player.money = 5;
-//		int price = (int) (Math.random() * (1 + player.money) );
-//		System.out.println("The price is $" + price);
-//		printSeperator(20);
-//		// ask to buy
-//		System.out.println("Do you want to buy one? \n1. Yes \n2. No thank you");
-//		int input = readInt("-> ", 2);
-//		if (input == 1);
-//		// buy
-//		clearConsole();
-//		if (player.money >= price) {
-//			printHeading("You bought the medicine for $" + price);
-//			player.money++;
-//			player.money -= price;
-//		} else {
-//			printHeading("You don't have enough money");
-//			anythingToContinue();
-//		}
+
 		System.out.println("You went to a shop and purchased a health potion.");
 		player.healthpt += 3;
 		player.money -= 1;
@@ -247,29 +229,16 @@ public class GameLogic {
 	// take rest
 	public static void takeRest() {
 		clearConsole();
-//		// random drop
-//		boolean addRest = (Math.random() * 5 + 1 <= 2.25);
-//		int moneyEarned = (int) (Math.random() * enemy.experiencept);
-//		if (addRest) {
-//			player.restsLeft++;
-//			System.out.println("You earned the chance to get additional rest!");
-//		}
-//		if (moneyEarned > 0)
-//			player.money += moneyEarned;
-//		System.out.println("You collect " + moneyEarned + " from the " + enemy.name + "'s corpse!");
-//	}
-//	anythingToContinue();
-//	break;
 		if (player.restsLeft >= 1) {
 			printHeading(
-					"Also if you need rest, " + "there's a bunk you can use in the back. Do you want to take a rest? ("
+					"Also if you need rest, " + "there's a bunk you can use in the back. Do you want to take a rest? "
 							+ player.restsLeft + "rests left");
 			System.out.println("1. Yes 2. No. I'm good!");
 			int input = readInt("->", 2);
 			if (input == 1) {
 				clearConsole();
 				if (player.healthpt < player.maxhealthpt) {
-					int hpRestored = (int) (Math.random() * (player.experiencept / 4 + 1) + 10);
+					int hpRestored = (int) (Math.random() * (player.experiencept + 1) + 10);
 					player.healthpt += hpRestored;
 					if (player.healthpt > player.maxhealthpt)
 						player.healthpt = player.maxhealthpt;
@@ -292,7 +261,6 @@ public class GameLogic {
 
 		battle(new Enemy(enemies[(int) (Math.random() * enemies.length)], player.experiencept));
 	}
-	
 
 	// battle method
 	public static void battle(Enemy enemy) {
@@ -319,7 +287,7 @@ public class GameLogic {
 				player.healthpt -= damageTook;
 				enemy.healthpt -= damage;
 				clearConsole();
-				printHeading("BATTLE");
+				printHeading("BATTLE MATCH");
 				System.out.println("You had " + damage + " damages to the " + enemy.name + ".");
 				printSeperator(20);
 				System.out.println("The " + enemy.name + " had " + damageTook + " damage to you");
@@ -361,8 +329,8 @@ public class GameLogic {
 				// run away
 				clearConsole();
 				if (act != 3) {
-					// 35% chance to escape
-					if (Math.random() * 10 + 1 <= 3.5) {
+					// 85% chance to escape
+					if (Math.random() * 10 <= 8.5) {
 						printHeading("You ran away from " + enemy.name);
 						anythingToContinue();
 						break;
@@ -385,8 +353,6 @@ public class GameLogic {
 
 	}
 
-	
-	
 	// print menu
 	public static void printMenu() {
 		clearConsole();
@@ -399,13 +365,16 @@ public class GameLogic {
 	}
 
 	// final battle
-	public static void finalBattle() {
-		battle(new Enemy("THE WORST ENEMY", 300));
-		Scene.printEnd(player);
-		isRunning = false;
-	}
-
-	
+//	public static void finalBattle() {
+//		while (isRunning) {
+//			battle(new Enemy("FINAL BATTLE \nENEMY", 10));
+//			if (player.healthpt <= 0)
+//				playerDied();
+//			else if (player.healthpt <= 0)
+//				Scene.printEnd(player);
+//		}
+//		isRunning = false;
+//	}
 
 	// die
 	public static void playerDied() {
@@ -419,25 +388,6 @@ public class GameLogic {
 	// main game loop
 	public static void gameLoop() {
 		while (isRunning) {
-////			printMenu();
-////			int input = readInt("-> ", 3);
-////			if (input == 1)
-////				continueJourney();
-////			else if (input == 2)
-////				charInfo();
-////			else
-////				isRunning = false;
-////			System.out.println("You died! Thank you for playing the game. See you again!");
-//			 charInfo();
-//		        Scene.printCurrent(places[place]);
-//		        continueJourney();
-//		    }
-//		    // call randomEncounter method before ending the game
-//		    randomEncounter();
-//		}
-			// print current scene and player info
-			Scene.printCurrent(places[place]);
-			charInfo();
 
 			// check for random encounters
 			if (place == 1 && act == 1) {
@@ -450,14 +400,13 @@ public class GameLogic {
 				Scene.printThird();
 				continueJourney();
 			} else {
-				finalBattle();
+				//finalBattle();
 				isRunning = false;
 				break;
 			}
+			place++;
+			act++;
 		}
 	}
 
-
-	}
-
-
+}

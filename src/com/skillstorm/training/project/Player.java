@@ -1,7 +1,5 @@
 package com.skillstorm.training.project;
 
-import java.util.Scanner;
-
 public class Player extends Character {
 
 	// store number of skills
@@ -16,7 +14,7 @@ public class Player extends Character {
 	int restsLeft;
 
 	// specific player constructor
-	public Player (String name) {
+	public Player(String name) {
 		super(name, 5, 0);
 
 		this.numAttackSkill = 0;
@@ -29,17 +27,18 @@ public class Player extends Character {
 		chooseTrait();
 	}
 
-	
 	@Override
 	public int attack() {
-		// TODO Auto-generated method 
-		return (int) (Math.random()*(experiencept/4 + numAttackSkill*3 + 3) + experiencept/10 + numAttackSkill*2 + numDefendSkill +1);
+		// TODO Auto-generated method
+		return (int) (Math.random() * (experiencept + numAttackSkill) + experiencept + 1 + numAttackSkill
+				+ numDefendSkill + 1);
 	}
 
 	@Override
 	public int defend() {
 		// TODO Auto-generated method stub
-		return (int) (Math.random()*(experiencept/4+numAttackSkill*3 + 3)+ experiencept/10 + numAttackSkill*2 + numDefendSkill +1);
+		return (int) (Math.random() * (experiencept + numAttackSkill) + experiencept + 1 + numAttackSkill
+				+ numDefendSkill + 1);
 	}
 
 	public void chooseTrait() {
@@ -63,10 +62,14 @@ public class Player extends Character {
 		GameLogic.anythingToContinue();
 	}
 
-
 	public void reset() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public String visitShop() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
