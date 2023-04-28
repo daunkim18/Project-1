@@ -42,24 +42,24 @@ public class Player extends Character {
 	}
 
 	public void chooseTrait() {
-		GameLogic.clearConsole();
-		GameLogic.printHeading("Choose a trait");
+		GameController.clearConsole();
+		GameController.printHeading("Choose a trait");
 		System.out.println("1 " + attackSkill[numAttackSkill]);
 		System.out.println("2 " + defendSkill[numDefendSkill]);
 
 		// player choice
-		int input = GameLogic.readInt("-> ", 2);
-		GameLogic.clearConsole();
+		int input = GameController.readInt("-> ", 2);
+		GameController.clearConsole();
 
 		// deal with both cases
 		if (input == 1) {
-			GameLogic.printHeading("You chose " + attackSkill[numAttackSkill]);
+			GameController.printHeading("You chose " + attackSkill[numAttackSkill]);
 			numAttackSkill++;
 		} else {
-			GameLogic.printHeading("You chose " + defendSkill[numDefendSkill]);
+			GameController.printHeading("You chose " + defendSkill[numDefendSkill]);
 			numDefendSkill++;
 		}
-		GameLogic.anythingToContinue();
+		GameController.anythingToContinue();
 	}
 
 	public void reset() {
